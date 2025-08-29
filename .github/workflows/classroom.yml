@@ -25,7 +25,7 @@ jobs:
         test-name: test1
         setup-command: ''
         command: 'curl -H "Authorization: token ${{ secrets.CLASSROOM_TEMPLATE_TOKEN
-          }} "     -s https://raw.githubusercontent.com/wanyongquan/bfs_autograding/refs/heads/main/test1.sh    |           bash
+          }} "     -s https://raw.githubusercontent.com/wanyongquan/bfs_autograding/refs/heads/main/test1.sh?token=GHSAT0AAAAAADJ46TOQLB7TKGMCFFMNBSUS2FRXC2Q    |           bash
           -s'
         timeout: 10
         max-score: 10
