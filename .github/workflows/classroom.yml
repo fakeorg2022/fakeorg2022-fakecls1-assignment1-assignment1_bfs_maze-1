@@ -1,0 +1,37 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      # Debug step to check if secret is injected
+      - name: Debug token length
+        run: echo "Token length = ${#TOKEN}"
+        env:
+          TOKEN: ${{ secrets.CLASSROOM_TEMPLATE_TOKEN }}
+    - name: test1
+      id: test1
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: test1
+        setup-command: ''
+        command: 'curl -H "Authorization: token ${{ secrets.CLASSROOM_TEMPLATE_TOKEN
+          }} "     -s https://raw.githubusercontent.com/wanyongquan/bfs_autograding/refs/heads/main/test1.sh    |           bash
+          -s'
+        timeout: 10
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TEST1_RESULTS: "${{steps.test1.outputs.result}}"
+      with:
+        runners: test1
